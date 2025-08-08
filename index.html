@@ -534,101 +534,80 @@
             }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
+        /* Container responsive */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 1024px) {
             .container {
                 padding: 0 1rem;
             }
-
             .header-content {
                 padding: 0 1rem;
             }
+            .section {
+                padding: 4rem 0;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+        }
 
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
             .nav-menu {
                 display: none;
                 position: absolute;
                 top: 100%;
                 left: 0;
-                width: 100%;
+                width: 100vw;
                 background: #000;
                 flex-direction: column;
-                gap: 0;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .nav-menu li {
-                border-bottom: 1px solid #333;
-            }
-
-            .nav-menu li:last-child {
-                border-bottom: none;
-            }
-
             .nav-menu li a {
-                display: block;
-                padding: 1rem 2rem;
-                border: none;
-            }
-
-            .nav-menu li a::after {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .tagline {
-                font-size: 0.9rem;
-                padding: 0 1rem;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
+                padding: 1rem;
                 font-size: 1.1rem;
             }
-
+            .hero {
+                padding: 3rem 0;
+            }
             .section-title {
-                font-size: 2rem;
+                font-size: 1.5rem;
             }
-
-            .steps {
+            .steps, .benefits-grid, .contact-grid, .footer-content {
                 grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section {
-                padding: 4rem 0;
+                gap: 1.5rem;
             }
         }
 
         @media (max-width: 480px) {
-            .hero {
-                padding: 4rem 0;
-            }
-
-            .cta-button {
-                padding: 1rem 2rem;
-                font-size: 1rem;
-            }
-
-            .step {
-                padding: 1.5rem;
-            }
-
-            .splash-text {
+            .hero h1 {
                 font-size: 1.5rem;
+            }
+            .cta-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            .step, .contact-form {
+                padding: 1rem;
+            }
+            .splash-text {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -898,8 +877,10 @@
         window.addEventListener('scroll', function() {
             const scrolled = window.pageYOffset;
             const hero = document.querySelector('.hero');
-            if (hero) {
+            if (hero && window.innerWidth > 768) { // Solo en desktop
                 hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+            } else if (hero) {
+                hero.style.transform = 'none';
             }
         });
 
