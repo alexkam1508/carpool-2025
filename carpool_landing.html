@@ -18,24 +18,6 @@
             color: #333;
             overflow-x: hidden;
         }
-         .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .contact-form {
-                padding: 2rem;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                text-align: center;
-            }
-
-            .footer-social {
-                justify-content: center;
-            }        /* Animaciones */
 
         /* Pantalla de carga */
         .splash-screen {
@@ -65,6 +47,24 @@
             letter-spacing: 2px;
             animation: fadeInUp 1s ease-out;
         }
+        .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-form {
+                padding: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .footer-social {
+                justify-content: center;
+            }        /* Animaciones */
 
         @keyframes fadeInUp {
             from {
@@ -82,13 +82,18 @@
             background: #000;
             color: white;
             padding: 1rem 0;
-            text-align: center;
             opacity: 0;
             animation: slideInFromTop 1s ease-out 0.3s forwards;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .container {
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
@@ -97,16 +102,63 @@
         .logo {
             font-size: 2.2rem;
             font-weight: 600;
-            margin-bottom: 0.3rem;
             letter-spacing: -0.5px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        .nav-menu li a {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu li a:hover {
+            color: white;
+        }
+
+        .nav-menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu li a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
         .tagline {
+            text-align: center;
             font-size: 0.95rem;
             font-weight: 400;
             color: #bbb;
             max-width: 500px;
-            margin: 0 auto;
+            margin: 1rem auto 0;
+            padding: 0 2rem;
             line-height: 1.4;
         }
 
@@ -488,12 +540,51 @@
                 padding: 0 1rem;
             }
 
-            .logo {
-                font-size: 2rem;
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #000;
+                flex-direction: column;
+                gap: 0;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-menu li {
+                border-bottom: 1px solid #333;
+            }
+
+            .nav-menu li:last-child {
+                border-bottom: none;
+            }
+
+            .nav-menu li a {
+                display: block;
+                padding: 1rem 2rem;
+                border: none;
+            }
+
+            .nav-menu li a::after {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
             }
 
             .tagline {
                 font-size: 0.9rem;
+                padding: 0 1rem;
             }
 
             .hero h1 {
@@ -550,14 +641,21 @@
 
     <!-- Header -->
     <header class="header">
-        <div class="container">
-            <div class="logo">Car Pool</div>
-            <p class="tagline">Viajes entre estudiantes hacia tu universidad de forma segura y económica</p>
+        <div class="header-content">
+            <a href="#" class="logo">Car Pool</a>
+            <nav>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#como-funciona">¿Cómo funciona?</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+            </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="inicio">
         <div class="container">
             <h1>Comparte tu ruta<br>Conecta con estudiantes</h1>
             <p>La primera plataforma de carpooling diseñada exclusivamente para estudiantes universitarios. Ahorra dinero, cuida el planeta y haz nuevos amigos en el camino.</p>
@@ -736,7 +834,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2025 Car Pool. Desarrollado por Nexora Mx. Todos los derechos reservados.</p>
+                <p>© 2025 Car Pool. Proyecto Desarrollado por Nexora Mx. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
@@ -819,6 +917,23 @@
             }
             type();
         }
+
+        // Menú móvil
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            this.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Cerrar menú móvil al hacer clic en un enlace
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
 
         // Manejo del formulario de contacto
         document.querySelector('.contact-form form').addEventListener('submit', function(e) {
